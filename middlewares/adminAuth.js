@@ -9,9 +9,7 @@ function adminAuth(req , res , next){
     const decodedData = jwt.verify(token , process.env.JWT_ADMIN_SECRET);
 
     if(decodedData){
-        res.json({
-            msg : "Good to go"
-        })
+        req.userId = decodedData.id;
         next();
     }
 

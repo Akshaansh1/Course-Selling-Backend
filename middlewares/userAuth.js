@@ -9,6 +9,7 @@ function userAuth(req , res , next){
     const decodedData = jwt.verify(token , process.env.JWT_USER_SECRET);
 
     if(decodedData){
+        req.userId = decodedData.id
         res.json({
             msg : "Good to go"
         })

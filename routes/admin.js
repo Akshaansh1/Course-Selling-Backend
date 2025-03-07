@@ -1,9 +1,11 @@
 const { Router }  = require("express");
 const AdminRoutes = Router();
-const { adminModel } = require('../db');
+const { adminModel, courseModel } = require('../db');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
+
+const {adminAuth} = require("../middlewares/adminAuth");
 
 dotenv.config();
 
@@ -57,17 +59,57 @@ AdminRoutes.post('/signin' , async (req,res) => {
         res.status(403).send("Error");
     }
 
-})
-AdminRoutes.post('/' , (req,res) => {
+});
+
+AdminRoutes.post('/course' , adminAuth , async (req,res) => {
+    const adminId = req.userId;
+    const {title , description , imageURL , price} = req.body;
+
+    const course = await courseModel.create({
+        title : title,
+        description : description,
+        imageURL : imageURL,
+        price : price,
+        creatorID : adminId
+    })
+
+    res.json({
+        msg : "Course Created",
+        courseId : course._id
+    });
 
 })
 
-AdminRoutes.put('/' , (req,res) => {
+AdminRoutes.put('/course' , adminAuth , async (req,res) => {
+    const adminId = req.userId;
+    const {title , description , imageURL , price , courseId} = req.body;
 
+    const course = await courseModel.updateOne({
+        _id : courseId,
+        creatorID : adminId
+    } , {
+        title : title ,
+        description : description,
+        imageURL : imageURL,
+        price : price
+    } , );
+
+    res.json({
+        msg : "Course Updated",
+        courseId : course._id
+    })
 })
 
-AdminRoutes.get('/course/bulk' , (req,res) => {
+AdminRoutes.get('/course/bulk' , adminAuth , async (req,res) => {
+    const adminId = req.userId;
 
+    const courses = await courseModel.find({
+        creatorID : adminId
+    });
+
+    res.json({
+        courses
+    })
 })
 
 module.exports = {

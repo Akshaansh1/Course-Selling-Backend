@@ -5,4 +5,5 @@
 <li>Created Schemas of The MongoDB Database</li>
 <li>Added some signup/signin logic for user/admin</li>
 <li>Added Auth Middlewares</li>
+<li>Created Admin logic of Adding courses</li>
 </ul>
