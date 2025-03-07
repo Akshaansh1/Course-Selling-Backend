@@ -6,4 +6,6 @@
 <li>Added some signup/signin logic for user/admin</li>
 <li>Added Auth Middlewares</li>
 <li>Created Admin logic of Adding courses</li>
+<li>Added user logic and purchase logic</li>
+<li>Completed Everything</li>
 </ul>

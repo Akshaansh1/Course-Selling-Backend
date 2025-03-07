@@ -3,9 +3,10 @@ const { userModel } = require("../db");
 const userRoutes = Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const userAuth = require("../middlewares/userAuth");
 
 userRoutes.post('/signup' , async (req , res) => {
-const email = req.body.email;
+    const email = req.body.email;
     const password = req.body.password;
     const firstname = req.body.firstname;
     const lastname = req.body.lastname;
@@ -56,8 +57,14 @@ userRoutes.post('/signin' , async (req , res) => {
 })
 
 
-userRoutes.get('/purchases' , (req , res) => {
+userRoutes.get('/purchases' , userAuth , async(req , res) => {
+    const userId = req.userId;
+    
+    const purcahses = await purchaseModel.findOne({
+        userId
+    });
 
+    res.send(purchases);
 })
 
 module.exports = {
