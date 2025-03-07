@@ -46,7 +46,7 @@ AdminRoutes.post('/signin' , async (req,res) => {
     if(hashed){
         const token = jwt.sign({
             id : user._id.toString()
-        } , process.env.JWT_SECRET);
+        } , process.env.JWT_ADMIN_SECRET);
 
         res.json({
             token : token
